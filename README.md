@@ -1,0 +1,2 @@
+# jsprintsetup
+JSPrintSetup Firefox addon
