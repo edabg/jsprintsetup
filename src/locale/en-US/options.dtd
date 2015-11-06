@@ -1,0 +1,15 @@
+<!ENTITY  jsPrintSetup.Options		"jsPrintSetup Options">
+<!ENTITY  jsPrintSetup.SecurityMode	"Security Mode">
+<!ENTITY  jsPrintSetup.AccessFromEnabled	"Enable access ONLY from enabled sites">
+<!ENTITY  jsPrintSetup.PromptForAccess	"Prompt for access if site is not in Allowed/Blocked list">
+<!ENTITY  jsPrintSetup.AccessFromAll	"Enable access from all sites (not recommended)">
+<!ENTITY  jsPrintSetup.Behavior	"Behavior">
+<!ENTITY  jsPrintSetup.EnableAccessFromLocal	"Enable access from local files (file:///)">
+<!ENTITY  jsPrintSetup.EnableRequestFromBlocked	"Enable request access from blocked sites">
+<!ENTITY  jsPrintSetup.SitePermissions	"Site Permissions">
+
+
+
+
+ 
+

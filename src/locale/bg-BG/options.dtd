@@ -1,0 +1,15 @@
+<!ENTITY  jsPrintSetup.Options		"jsPrintSetup Настройки">
+<!ENTITY  jsPrintSetup.SecurityMode	"Режим на сигурност">
+<!ENTITY  jsPrintSetup.AccessFromEnabled	"Разреши достъпа само от РАЗРЕШЕНИ сайтове">
+<!ENTITY  jsPrintSetup.PromptForAccess	"Запитване на разрешаване/забрана на достъпа">
+<!ENTITY  jsPrintSetup.AccessFromAll	"Разрешен достъп от всички сайтове (не се препоръчва)">
+<!ENTITY  jsPrintSetup.Behavior	"Поведение">
+<!ENTITY  jsPrintSetup.EnableAccessFromLocal	"Разрешаване на достъпа от локални файлове(file:///)">
+<!ENTITY  jsPrintSetup.EnableRequestFromBlocked	"Разрешаване на запитване за Разрешение от блокирани сайтове">
+<!ENTITY  jsPrintSetup.SitePermissions	"Права на сайтове">
+
+
+
+
+ 
+

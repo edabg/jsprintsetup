@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+
+<RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+<RDF:Description about="urn:mozilla:install-manifest">
+	<em:id>jsprintsetup@edabg.com</em:id>
+	<em:type>2</em:type>
+	<em:version>0.9.5.1</em:version>
+	<em:name>JS Print Setup</em:name>
+	
+	<em:description>Client side Javascript printer settings.</em:description>
+
+	<em:creator>EDA Ltd.</em:creator>
+
+	<em:developer>Dimitar Angelov</em:developer>
+	<em:developer>Angel Baev</em:developer>
+
+	<em:contributor>Guillaume Crico</em:contributor>
+	<em:contributor>Josh Stutts</em:contributor>
+	
+	<em:translator>Guillaume Crico</em:translator>
+	<em:translator>Andrés Michel</em:translator>
+	
+	<em:homepageURL>	http://jsprintsetup.mozdev.org/</em:homepageURL>
+	<em:optionsURL>chrome://jsprintsetup/content/options.xul</em:optionsURL>
+	<em:iconURL>chrome://jsprintsetup/skin/jsps.png</em:iconURL>
+	<em:localized>
+		<Description>
+			<em:locale>bg-BG</em:locale>
+			<em:name>JS Print Setup</em:name>
+			<em:description>Настройка на печата от клиентски Javascript.</em:description>
+			<em:creator>ЕДА ООД</em:creator>
+			<em:homepageURL>	http://jsprintsetup.mozdev.org/</em:homepageURL>
+		</Description>
+	</em:localized>
+	 
+	<em:targetApplication>
+		<RDF:Description>
+			<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id> <!-- Firefox -->
+			<em:minVersion>13.0</em:minVersion>
+			<em:maxVersion>42.0</em:maxVersion>
+		</RDF:Description>
+	</em:targetApplication>
+
+	<em:targetApplication>
+		<RDF:Description>
+			<em:id>prism@developer.mozilla.org</em:id> <!-- Prism -->
+			<em:minVersion>0.8</em:minVersion>
+			<em:maxVersion>1.*</em:maxVersion>
+		</RDF:Description>
+	</em:targetApplication>
+	
+</RDF:Description>
+</RDF:RDF>
+

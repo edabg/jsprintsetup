@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://jsprintsetup/locale/options.dtd">
+ 
+<prefwindow xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	id="jpso_dlg" 
+	flex="1"
+	title="&jsPrintSetup.Options;">
+	<script type="application/x-javascript" >
+	<![CDATA[
+	function _gettext(msg) {
+		try {
+			var strbundle = document.getElementById("jsps_strings");
+			return strbundle.getString(msg);
+		} catch (err) {
+			return msg;	
+		}
+	}
+	function openPermissionManager() {
+		var params = { blockVisible   : true,
+							sessionVisible : false,
+							allowVisible   : true,
+							prefilledHost  : "",
+							permissionType : "jsPrintSetup", //"popup",
+							windowTitle    : "jsPrintSetup",
+							introText      : "jsPrintSetup "+_gettext("Permissions") 
+		};		
+		window.openDialog("chrome://browser/content/preferences/permissions.xul",
+								"_blank", "resizable,dialog=no,centerscreen", params);
+	}
+	]]>
+	</script>
+<stringbundleset id="jsps_stringbundleset">
+	<stringbundle id="jsps_strings" src="chrome://jsprintsetup/locale/jsprintsetup.properties"/>
+</stringbundleset>
+<prefpane>
+	<preferences>
+		<preference id="jpso_security_mode" name="extensions.jsprintsetup.security_mode" type="string"/>
+		<preference id="jpso_localfiles_enabled" name="extensions.jsprintsetup.localfiles_enabled" type="bool"/>
+		<preference id="jpso_allow_blocked_request" name="extensions.jsprintsetup.allow_blocked_request" type="bool"/>
+	</preferences>
+	<groupbox>
+		<caption label="&jsPrintSetup.SecurityMode;" />
+		<radiogroup id="jpso_security_mode" preference="jpso_security_mode">
+			<radio id="jpso_sm_allowed" value="allowed" label="&jsPrintSetup.AccessFromEnabled;" />
+			<radio id="jpso_sm_prompt" value="prompt" label="&jsPrintSetup.PromptForAccess;" />
+			<radio id="jpso_sm_all" value="all" label="&jsPrintSetup.AccessFromAll;" />
+		</radiogroup>
+	</groupbox>
+	<groupbox>
+		<caption label="&jsPrintSetup.Behavior;" />
+		<checkbox label="&jsPrintSetup.EnableAccessFromLocal;" id="jpso_local_files_access" preference="jpso_localfiles_enabled" />
+		<checkbox label="&jsPrintSetup.EnableRequestFromBlocked;" id="jpso_blocked_request" preference="jpso_allow_blocked_request"/>
+	</groupbox>
+	<separator />
+	<button label="&jsPrintSetup.SitePermissions;" oncommand="openPermissionManager()" />
+</prefpane>
+</prefwindow>

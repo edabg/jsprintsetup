@@ -1,0 +1,155 @@
+//
+//  jsPrintSetup interface 
+//  	 Global object extending printing features from client-side JavaScript
+//
+//  Revision: 
+//     $Id: jsPrintSetup.idl,v 1.15 2013/08/13 20:02:04 mitko Exp $ 
+//
+//  Copyright(c) 2009 EDA Ltd.
+//	 
+// 
+
+#include "nsISupports.idl"
+//#include "nsIDOMHTMLDocument.idl"
+#include "nsIPrintSettings.idl"
+//#include "nsIDOMWindow.idl"
+//#include "nsISecurityCheckedComponent.idl"
+#include "nsIWebProgressListener.idl"
+#include "nsIPermissionManager.idl"
+
+interface nsIObserver;
+//interface nsIClassInfo;
+//interface nsISecurityCheckedComponent;
+
+[scriptable, uuid(8e09da68-abb3-4eee-995d-c2827ec28385)]
+interface jsPrintSetupCallback : nsISupports
+{
+	void permissionsCheck(in boolean enabled);
+	void permissionsAsk(in boolean allowed);
+}; 
+
+[scriptable, uuid(2eda1003-c9ff-434b-8abd-40c1617f85f7)]
+interface jsPrintSetup : nsISupports
+{
+	// Save Options Constants	
+	const unsigned long kSaveOddEvenPages = 0x00000001; //nsIPrintSettings::kInitSaveOddEvenPages; 
+	const unsigned long kSaveHeaderLeft   = 0x00000002; //nsIPrintSettings::kInitSaveHeaderLeft;
+	const unsigned long kSaveHeaderCenter = 0x00000004; //nsIPrintSettings::kInitSaveHeaderCenter;
+	const unsigned long kSaveHeaderRight  = 0x00000008; //nsIPrintSettings::kInitSaveHeaderRight;
+	const unsigned long kSaveFooterLeft   = 0x00000010; //nsIPrintSettings::kInitSaveFooterLeft;
+	const unsigned long kSaveFooterCenter = 0x00000020; //nsIPrintSettings::kInitSaveFooterCenter;
+	const unsigned long kSaveFooterRight  = 0x00000040; //nsIPrintSettings::kInitSaveFooterRight;
+	const unsigned long kSaveBGColors     = 0x00000080; //nsIPrintSettings::kInitSaveBGColors ;
+	const unsigned long kSaveBGImages     = 0x00000100; //nsIPrintSettings::kInitSaveBGImages;
+	const unsigned long kSavePaperSize    = 0x00000200; //nsIPrintSettings::kInitSavePaperSize;
+	const unsigned long kSavePaperData    = 0x00002000; //nsIPrintSettings::kInitSavePaperData;
+	const unsigned long kSavePaperSizeNativeData = 0x02000000; //nsIPrintSettings:: kPaperSizeNativeData;
+	const unsigned long kSavePaperWidth   = 0x00004000; //nsIPrintSettings::kInitSaveUnwriteableMargins;
+	const unsigned long kSavePaperHeight  = 0x00008000; //nsIPrintSettings::kInitSaveEdges;
+	const unsigned long kSaveInColor      = 0x00020000; //nsIPrintSettings::kInitSaveInColor;
+	const unsigned long kSaveOrientation  = 0x00040000; //nsIPrintSettings::kInitSaveOrientation;
+	const unsigned long kSavePrinterName  = 0x00100000; //nsIPrintSettings::kInitSavePrinterName;
+	const unsigned long kSavePageDelay    = 0x00800000; //nsIPrintSettings::kInitSavePageDelay;
+	const unsigned long kSaveMargins      = 0x01000000; //nsIPrintSettings::kInitSaveMargins;
+	const unsigned long kSaveShrinkToFit  = 0x08000000; //nsIPrintSettings::kInitSaveShrinkToFit;
+	const unsigned long kSaveResolutionName = 0x40000000; //nsIPrintSettings::kInitSaveResolutionName;
+	
+	const unsigned long  kSaveScaling     = 0x10000000; //nsIPrintSettings:: kInitSaveScaling;
+
+	// Page Size Unit Constants 
+	const short kPaperSizeInches          = 0; //nsIPrintSettings::kPaperSizeInches;
+	const short kPaperSizeMillimeters     = 1; //nsIPrintSettings::kPaperSizeMillimeters;
+
+	// Page Orientation Constants
+	const short kPortraitOrientation      = 0; //nsIPrintSettings::kPortraitOrientation;
+	const short kLandscapeOrientation     = 1; //nsIPrintSettings::kLandscapeOrientation;
+
+	// Paper Size Data Constants
+   const short kPaperSizeNativeData      = 0; //nsIPrintSettings::kPaperSizeNativeData;
+   const short kPaperSizeDefined         = 1; //nsIPrintSettings::kPaperSizeDefined;
+   
+	// Print Range Enums 
+	const long kRangeAllPages             = 0; //nsIPrintSettings::kRangeAllPages;
+	const long kRangeSpecifiedPageRange   = 1; //nsIPrintSettings::kRangeSpecifiedPageRange;
+	const long kRangeSelection            = 2; //nsIPrintSettings::kRangeSelection;
+	const long kRangeFocusFrame           = 3; //nsIPrintSettings::kRangeFocusFrame;
+
+	// Output format
+	const short kOutputFormatNative       = 0; //nsIPrintSettings::kOutputFormatNative;
+	const short kOutputFormatPS           = 1; //nsIPrintSettings::kOutputFormatPS;
+	const short kOutputFormatPDF          = 2; //nsIPrintSettings::kOutputFormatPDF;
+	
+	// Shorthand Combined Saving Constants
+	const unsigned long kSaveHeader = 
+										  kSaveHeaderLeft | kSaveHeaderCenter | kSaveHeaderRight | 
+										  kSaveFooterLeft | kSaveFooterCenter | kSaveFooterRight;
+	const unsigned long kSaveMarginsAndOrientation = 
+												kSaveOrientation | kSaveMargins;
+	const unsigned long kSaveMarginsAndHeader =
+											kSaveHeader | kSaveMarginsAndOrientation;
+	const unsigned long kSaveAll = 
+									  	kSaveOddEvenPages 
+										| kSaveHeaderLeft |kSaveHeaderCenter | kSaveHeaderRight  
+										| kSaveFooterLeft | kSaveFooterCenter | kSaveFooterRight 
+										| kSaveBGColors | kSaveBGImages 
+										| kSavePaperSize | kSavePaperData | kSavePaperSizeNativeData 
+										| kSavePaperWidth | kSavePaperHeight | kSaveInColor 
+										| kSaveOrientation |	kSavePrinterName | kSavePageDelay 
+										| kSaveMargins |	kSaveShrinkToFit | kSaveScaling 
+										| kSaveResolutionName;
+	// Permissions constants										
+	const uint32_t JSPS_ALLOW_ACTION   = 1; //nsIPermissionManager::ALLOW_ACTION;
+	const uint32_t JSPS_DENY_ACTION    = 2; //nsIPermissionManager::DENY_ACTION;
+	const uint32_t JSPS_UNKNOWN_ACTION = 0; //nsIPermissionManager::UNKNOWN_ACTION;
+
+	wstring getVersion();
+	
+	void setCallback(in jsPrintSetupCallback callback);
+	void askUserPermissions(in jsPrintSetupCallback callback);
+	uint32_t getPermissions();
+	
+	void setOption(in string option, in wstring value);
+	void setGlobalOption(in string option, in wstring value);
+	wstring getOption(in wstring option);
+	wstring getGlobalOption(in wstring option);
+	void saveOptions(in long optionSet);
+	void saveGlobalOptions(in long optionSet);
+	void refreshOptions();
+
+   // Paper size manipulation
+	short getPaperSizeUnit();
+	void setPaperSizeUnit(in short aPaperSizeUnit);
+	
+	wstring getPaperSizeList();
+	void definePaperSize(in short jspid, in short pd, in wstring pn
+								, in wstring pwg, in wstring name
+								, in double w, in double h, in short m);
+	void undefinePaperSize(in short jspid);
+	wstring getPaperSizeDataByID(in short jspid);
+	wstring getPaperSizeData();
+	void setPaperSizeData(in short jspid);
+	wstring getPaperMeasure();
+		
+	wstring getPrintersList();
+	void setPrinter(in wstring aPrinterName);
+	wstring getPrinter();
+
+	void setShowPrintProgress(in boolean flag);
+	boolean getShowPrintProgress();
+
+	void setSilentPrint(in boolean flag);
+	boolean getSilentPrint();	
+	void clearSilentPrint();
+	
+	void print();
+	// used nsISupports instead of nsIDOMWindow, because is changed UUID of nsIDOMWindow 
+	// from FF6 to be compadible in versions before and after FF6 we use nsISupports
+	void printWindow(in nsISupports aWindow);  
+
+	// used nsISupports instead of nsIWebProgressListener, because is changed UUID of nsIWebProgressListener 
+	// from FF11 to be compadible in versions before and after FF11 we use nsISupports
+	void setPrintProgressListener(in nsIWebProgressListener aListener);
+	
+	void printPreview(); // not implemented yet
+	
+};

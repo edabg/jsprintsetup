@@ -1,0 +1,12 @@
+content  jsprintsetup chrome/content/
+skin jsprintsetup classic/1.0 chrome/skin/
+locale jsprintsetup	en-US locale/en-US/
+locale jsprintsetup	bg-BG locale/bg-BG/
+locale jsprintsetup	fr-FR locale/fr-FR/
+locale jsprintsetup	es-ES locale/es-ES/
+
+interfaces  components/jsPrintSetup.xpt
+component {2eda1003-c9ff-434b-8abd-40c1617f85f7} components/jsPrintSetup.js
+contract @edabg.com/jsprintsetup;1 {2eda1003-c9ff-434b-8abd-40c1617f85f7}
+category JavaScript-global-property jsPrintSetup @edabg.com/jsprintsetup;1
+
