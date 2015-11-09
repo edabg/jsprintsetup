@@ -48,3 +48,11 @@ jsPrintSetup.print();
 // Restore print dialog
 jsPrintSetup.setSilentPrint(false);
 ```
+
+## Reference
+
+The reference of JS Print Setup can be found at [wiki](https://github.com/edabg/jsprintsetup/wiki)
+
+## Installation from Mozilla Addon Page
+
+[JS Print Setup addon page](https://addons.mozilla.org/en-US/firefox/addon/js-print-setup/)
