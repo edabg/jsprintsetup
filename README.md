@@ -32,7 +32,7 @@ jsPrintSetup.setOption('orientation', jsPrintSetup.kPortraitOrientation);
 jsPrintSetup.setOption('marginTop', 15);
 jsPrintSetup.setOption('marginBottom', 15);
 jsPrintSetup.setOption('marginLeft', 20);
-jsPrintSetup.setOption(' marginRight', 10);
+jsPrintSetup.setOption('marginRight', 10);
 // set page header
 jsPrintSetup.setOption('headerStrLeft', 'My custom header');
 jsPrintSetup.setOption('headerStrCenter', '');
