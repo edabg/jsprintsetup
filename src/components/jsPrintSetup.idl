@@ -11,7 +11,7 @@
 
 #include "nsISupports.idl"
 //#include "nsIDOMHTMLDocument.idl"
-#include "nsIPrintSettings.idl"
+//#include "nsIPrintSettings.idl"
 //#include "nsIDOMWindow.idl"
 //#include "nsISecurityCheckedComponent.idl"
 #include "nsIWebProgressListener.idl"
@@ -53,8 +53,8 @@ interface jsPrintSetup : nsISupports
 	const unsigned long kSaveMargins      = 0x01000000; //nsIPrintSettings::kInitSaveMargins;
 	const unsigned long kSaveShrinkToFit  = 0x08000000; //nsIPrintSettings::kInitSaveShrinkToFit;
 	const unsigned long kSaveResolutionName = 0x40000000; //nsIPrintSettings::kInitSaveResolutionName;
-	
-	const unsigned long  kSaveScaling     = 0x10000000; //nsIPrintSettings:: kInitSaveScaling;
+	const unsigned long kInitSaveDuplex     = 0x00000800;	//nsIPrintSettings::kInitSaveDuplex;
+	const unsigned long kSaveScaling      = 0x10000000; //nsIPrintSettings:: kInitSaveScaling;
 
 	// Page Size Unit Constants 
 	const short kPaperSizeInches          = 0; //nsIPrintSettings::kPaperSizeInches;
@@ -96,7 +96,7 @@ interface jsPrintSetup : nsISupports
 										| kSavePaperWidth | kSavePaperHeight | kSaveInColor 
 										| kSaveOrientation |	kSavePrinterName | kSavePageDelay 
 										| kSaveMargins |	kSaveShrinkToFit | kSaveScaling 
-										| kSaveResolutionName;
+										| kSaveResolutionName | kInitSaveDuplex;
 	// Permissions constants										
 	const uint32_t JSPS_ALLOW_ACTION   = 1; //nsIPermissionManager::ALLOW_ACTION;
 	const uint32_t JSPS_DENY_ACTION    = 2; //nsIPermissionManager::DENY_ACTION;

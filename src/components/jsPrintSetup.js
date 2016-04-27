@@ -13,7 +13,7 @@ const kMODULE_CONTRACTID = "@edabg.com/jsprintsetup;1";
 const kMODULE_CID = Components.ID("{2eda1003-c9ff-434b-8abd-40c1617f85f7}");
 const kMODULE_INTERFACE = Components.interfaces.jsPrintSetup;
 // Statically defined alternate can b e used Addon Manager or  Extension Manager in FF 3.x
-const kMODULE_VERSION = "0.9.5.1"; 
+const kMODULE_VERSION = "0.9.5.2"; 
 
 // Measure Units
 const kPaperSizeInches = Components.interfaces.nsIPrintSettings.kPaperSizeInches; //Components.interfaces.nsIPrintSettings.kPaperSizeInches;
@@ -1001,6 +1001,12 @@ jsPrintSetup.prototype = {
 				case 'printBGImages' :
 					this.printSettings.printBGImages = this.toBool(value);				
 					break;										
+				case 'duplex' :
+					this.printSettings.duplex = value;				
+					break;										
+				case 'resolution' :
+					this.printSettings.resolution = value;				
+					break;										
 				case 'title':
 					this.printSettings.title = value;
 					break;
@@ -1128,6 +1134,12 @@ jsPrintSetup.prototype = {
 					break;										
 				case 'printBGImages' :
 					this.globalPrintSettings.printBGImages = this.toBool(value);				
+					break;										
+				case 'resolution' :
+					this.globalPrintSettings.resolution = value;				
+					break;										
+				case 'duplex' :
+					this.globalPrintSettings.duplex = value;				
 					break;										
 				case 'title':
 					this.globalPrintSettings.title = value;
@@ -1264,6 +1276,12 @@ jsPrintSetup.prototype = {
 				case 'printBGImages' :
 					this.prefStatus = this.printSettings.printBGImages;				
 					break;										
+				case 'resolution' :
+					this.prefStatus = this.printSettings.resolution;				
+					break;										
+				case 'duplex' :
+					this.prefStatus = this.printSettings.duplex;				
+					break;										
 				case 'title':
 					this.prefStatus = this.printSettings.title;
 					break;
@@ -1397,6 +1415,12 @@ jsPrintSetup.prototype = {
 					break;										
 				case 'printBGImages' :
 					this.prefStatus = this.globalPrintSettings.printBGImages;				
+					break;										
+				case 'resolution' :
+					this.prefStatus = this.globalPrintSettings.resolution;				
+					break;										
+				case 'duplex' :
+					this.prefStatus = this.globalPrintSettings.duplex;				
 					break;										
 				case 'title':
 					this.prefStatus = this.globalPrintSettings.title;
