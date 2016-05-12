@@ -13,7 +13,7 @@ const kMODULE_CONTRACTID = "@edabg.com/jsprintsetup;1";
 const kMODULE_CID = Components.ID("{2eda1003-c9ff-434b-8abd-40c1617f85f7}");
 const kMODULE_INTERFACE = Components.interfaces.jsPrintSetup;
 // Statically defined alternate can b e used Addon Manager or  Extension Manager in FF 3.x
-const kMODULE_VERSION = "0.9.5.2"; 
+const kMODULE_VERSION = "0.9.5.3"; 
 
 // Measure Units
 const kPaperSizeInches = Components.interfaces.nsIPrintSettings.kPaperSizeInches; //Components.interfaces.nsIPrintSettings.kPaperSizeInches;
@@ -801,14 +801,25 @@ jsPrintSetup.prototype = {
 				this.printSettingsService.initPrintSettingsFromPrinter(this.printSettings.printerName, this.printSettings);
 			}
 			// now augment them with any values from last time
-			this.printSettingsService.initPrintSettingsFromPrefs(this.printSettings, true, this.printSettingsInterface.kInitSaveAll);
+//			this.printSettingsService.initPrintSettingsFromPrefs(this.printSettings, true, this.printSettingsInterface.kInitSaveAll);
+			this.initPtintSettingsFromPrefs();
 	
 		/*	if (this.printSettingsService.defaultPrinterName != this.printerName)
 				this.printSettingsService.defaultPrinterName = this.printerName;*/
 		} catch (err) {
 			if (this.DEBUG) this.error(err);
 		}		
-	}, 	
+	},
+	
+	initPtintSettingsFromPrefs: function() {
+		var defaultResolution = this.printSettings.resolution;
+		// read settings from stored preferences
+		this.printSettingsService.initPrintSettingsFromPrefs(this.printSettings, true, this.printSettingsInterface.kInitSaveAll);
+		// Fix Bug in FF upgrade from version 45 to 46.
+		// Resolution is saved in preferences as -437918235 and as result prints blank page!
+		if (this.printSettings.resolution < 0) 
+			this.printSettings.resolution = defaultResolution;
+	},
 
 	setPrinter: function(printerName){
 		if (!this._checkPermissions()) return;
@@ -1570,7 +1581,8 @@ jsPrintSetup.prototype = {
 			this.printSettings.printerName = ''; 		
 			this.printSettingsService.initPrintSettingsFromPrinter(this.printerName, this.printSettings);
 			// now augment them with any values from last time
-			this.printSettingsService.initPrintSettingsFromPrefs(this.printSettings, true, this.printSettingsInterface.kInitSaveAll);
+			//this.printSettingsService.initPrintSettingsFromPrefs(this.printSettings, true, this.printSettingsInterface.kInitSaveAll);
+			this.initPtintSettingsFromPrefs();
 		} catch (err) {
 			if (this.DEBUG) this.error(err);
 		}	
