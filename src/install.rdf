@@ -6,7 +6,7 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 <RDF:Description about="urn:mozilla:install-manifest">
 	<em:id>jsprintsetup@edabg.com</em:id>
 	<em:type>2</em:type>
-	<em:version>0.9.5.3</em:version>
+	<em:version>0.9.5.4</em:version>
 	<em:name>JS Print Setup</em:name>
 	
 	<em:description>Client side Javascript printer settings.</em:description>

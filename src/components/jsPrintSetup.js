@@ -13,7 +13,7 @@ const kMODULE_CONTRACTID = "@edabg.com/jsprintsetup;1";
 const kMODULE_CID = Components.ID("{2eda1003-c9ff-434b-8abd-40c1617f85f7}");
 const kMODULE_INTERFACE = Components.interfaces.jsPrintSetup;
 // Statically defined alternate can b e used Addon Manager or  Extension Manager in FF 3.x
-const kMODULE_VERSION = "0.9.5.3"; 
+const kMODULE_VERSION = "0.9.5.4"; 
 
 // Measure Units
 const kPaperSizeInches = Components.interfaces.nsIPrintSettings.kPaperSizeInches; //Components.interfaces.nsIPrintSettings.kPaperSizeInches;
@@ -1021,6 +1021,9 @@ jsPrintSetup.prototype = {
 				case 'title':
 					this.printSettings.title = value;
 					break;
+				case 'printToFile' :
+					this.printSettings.printToFile = this.toBool(value);				
+					break;										
 				case 'toFileName':
 					this.printSettings.toFileName = value;
 					break;
@@ -1155,6 +1158,9 @@ jsPrintSetup.prototype = {
 				case 'title':
 					this.globalPrintSettings.title = value;
 					break;
+				case 'printToFile' :
+					this.globalPrintSettings.printToFile = this.toBool(value);				
+					break;										
 				case 'toFileName':
 					this.globalPrintSettings.toFileName = value;
 					break;
@@ -1296,6 +1302,9 @@ jsPrintSetup.prototype = {
 				case 'title':
 					this.prefStatus = this.printSettings.title;
 					break;
+				case 'printToFile':
+					this.prefStatus = this.printSettings.printToFile;
+					break;
 				case 'toFileName':
 					this.prefStatus = this.printSettings.toFileName;
 					break;
@@ -1435,6 +1444,9 @@ jsPrintSetup.prototype = {
 					break;										
 				case 'title':
 					this.prefStatus = this.globalPrintSettings.title;
+					break;
+				case 'printToFile':
+					this.prefStatus = this.globalPrintSettings.printToFile;
 					break;
 				case 'toFileName':
 					this.prefStatus = this.globalPrintSettings.toFileName;
