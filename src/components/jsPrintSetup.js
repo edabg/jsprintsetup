@@ -13,7 +13,7 @@ const kMODULE_CONTRACTID = "@edabg.com/jsprintsetup;1";
 const kMODULE_CID = Components.ID("{2eda1003-c9ff-434b-8abd-40c1617f85f7}");
 const kMODULE_INTERFACE = Components.interfaces.jsPrintSetup;
 // Statically defined alternate can b e used Addon Manager or  Extension Manager in FF 3.x
-const kMODULE_VERSION = "0.9.5.4"; 
+const kMODULE_VERSION = "0.9.5.5"; 
 
 // Measure Units
 const kPaperSizeInches = Components.interfaces.nsIPrintSettings.kPaperSizeInches; //Components.interfaces.nsIPrintSettings.kPaperSizeInches;
@@ -35,7 +35,7 @@ function jsPrintSetup() {
 	this.INITOK = false;
 	this.OS = null;
 	this.JSON = null;
-	this.URL = null;
+	this.URI = null;
 	this.callback = null;
 	this.permissions = JSPS_UNKNOWN_ACTION;
 	this.permissionsChecked = false;
@@ -49,8 +49,7 @@ function jsPrintSetup() {
 		// "Linux" on GNU/Linux; and "Darwin" on Mac OS X.
 	   this.OS = Components.classes["@mozilla.org/xre/app-info;1"]
 	                  .getService(Components.interfaces.nsIXULRuntime).OS;
-		this.URL = this.getWindow().content.document.baseURI;
-//		this.URL = "http://ala-bala.portokala.com"; // For debug only!
+		this.initURI();
 		this.prefBranch = Components.classes["@mozilla.org/preferences-service;1"]
 									.getService(Components.interfaces.nsIPrefService)
 									.getBranch('extensions.jsprintsetup.');
@@ -91,7 +90,6 @@ function jsPrintSetup() {
 		this.error(err);	
 	}
 //	this._checkPermissions();
-//	this.alert(this.URL);
 }
 
 
@@ -404,23 +402,34 @@ jsPrintSetup.prototype = {
 		this.callback = callback;
 	}, 		
 // Permission support methods
-	isLocalFileURL : function (URL) {
-		return URL.match(/^file:\/\/\/./);
-	},
-	
-	checkURLPermissions : function (URL) {
+	initURI : function () {
+		try {
+			var URI = this.getWindow().content.document.baseURIObject;
+			var ioService = Components.classes["@mozilla.org/network/io-service;1"]
+				.getService(Components.interfaces.nsIIOService);
+// For debug only!
+//			URI = ioService.newURI("http://mitko:pitko@ala-bala.portokala.com:8080/path/to/index.php?a=b&x=2#103", null, null);			
+//			URI = ioService.newURI("about:_blank", null, null);			
+			// Normalize URI and get only scheme,host and port
+			if (URI.schemeIs("file") || URI.schemeIs("http") || URI.schemeIs("https")) {
+				this.URI = ioService.newURI(URI.scheme+"://"+URI.hostPort, null, null);
+			} else {
+				// Unsupported scheme don't touch
+				this.URI = URI;
+			}
+		} catch (err) {
+			this.error(err);	
+		}
+	}, 
+
+	checkURLPermissions : function () {
 		var perm = JSPS_UNKNOWN_ACTION;
 		try {
-			if (this.isLocalFileURL(URL)) {
+			if (this.URI.schemeIs("file")) {
 				// local file
 				perm = this.localFilesEnabled?JSPS_ALLOW_ACTION:JSPS_DENY_ACTION; 
-			} else {
-				var ioService = Components.classes["@mozilla.org/network/io-service;1"]
-					.getService(Components.interfaces.nsIIOService);
-				var host = URL.replace(/^\s*([-\w]*:\/+)?/, ""); // trim any leading space and scheme
-				host = (host.charAt(0) == ".") ? host.substring(1,host.length) : host;
-				var URI = ioService.newURI("http://"+host, null, null);			
-				switch (this.permissionManager.testPermission(URI, "jsPrintSetup")) {
+			} else if (this.URI.schemeIs("http") || this.URI.schemeIs("https")) {
+				switch (this.permissionManager.testPermission(this.URI, "jsPrintSetup")) {
 					case this.permissionManager.ALLOW_ACTION :
 						perm = JSPS_ALLOW_ACTION;
 						break;
@@ -430,6 +439,10 @@ jsPrintSetup.prototype = {
 					default :	
 						perm = JSPS_UNKNOWN_ACTION;
 				}
+			} else {
+				// usupported scheme
+				perm = JSPS_DENY_ACTION;
+				this.error("Unsupported scheme: "+this.URI.scheme);
 			}
 		} catch (err) {
 			this.error(err);	
@@ -439,12 +452,12 @@ jsPrintSetup.prototype = {
 	
 	 getPermissions : function () {
 		if (this.securityMode == "all") return JSPS_ALLOW_ACTION;
-		return this.checkURLPermissions(this.URL);
+		return this.checkURLPermissions();
 	},
 	
 	_checkPermissions : function () {
 		if (this.securityMode == "all") return true;
-		this.permissions = this.checkURLPermissions(this.URL);
+		this.permissions = this.checkURLPermissions();
 //		this.alert(this.permissions+':'+JSPS_ALLOW_ACTION);
 		if ((this.permissions == JSPS_UNKNOWN_ACTION) && (this.securityMode != "allowed")) 
 			this.askUserPermissions();
@@ -470,7 +483,7 @@ jsPrintSetup.prototype = {
 	askUserPermissions : function (callback) {
 		if (callback)
 			this.setCallback(callback);
-		var permissions = this.checkURLPermissions(this.URL);
+		var permissions = this.checkURLPermissions();
 		// If ask for permissions is enabled Do asking
 		if ((permissions == JSPS_UNKNOWN_ACTION) || (permissions == JSPS_DENY_ACTION) && this.allowBlockedRequest)
 			this._askUserPermissions();
@@ -491,7 +504,7 @@ jsPrintSetup.prototype = {
 						accessKey: this.gettext('AllowKey'),   
 						//popup: "jsprintsetupNotificationOptions",//@todo the questions in this menu... Need an overlay? or can be built on demand?
 						callback: function (aNotifyObj, aButton) {
-							self.setPermission(self.URL, 'allow');
+							self.setPermission('allow');
 							self.permissionsAskCallback(true);
 							return false;
 						}
@@ -501,7 +514,7 @@ jsPrintSetup.prototype = {
 						accessKey: this.gettext('BlockKey'),   //@todo use locale property
 						//popup: "jsprintsetupNotificationOptions",//@todo the questions in this menu... Need an overlay? or can be built on demand?
 						callback: function (aNotifyObj, aButton) {
-							self.setPermission(self.URL, 'block');
+							self.setPermission('block');
 							self.permissionsAskCallback(false);
 							return false;
 						}
@@ -578,7 +591,7 @@ jsPrintSetup.prototype = {
 		var params = { blockVisible   : true,
 							sessionVisible : false,
 							allowVisible   : true,
-							prefilledHost  : this.URL,
+							prefilledHost  : this.URI.spec,
 							permissionType : "jsPrintSetup", //"popup",
 							windowTitle    : "jsPrintSetup",
 							introText      : "jsPrintSetup "+this.gettext("Permissions") 
@@ -588,19 +601,14 @@ jsPrintSetup.prototype = {
 								"_blank", "resizable,dialog=no,centerscreen", params);
 	},
 	
-	setPermission : function (URL, act) {
+	setPermission : function (act) {
 		var perm = (act == "block")?this.permissionManager.DENY_ACTION:this.permissionManager.ALLOW_ACTION;
 		try {
-			if (this.isLocalFileURL(URL)) {
+			if (this.URI.schemeIs("file")) {
 				this.localFilesEnabled = (perm == this.permissionManager.ALLOW_ACTION); 
 				this.prefBranch.setBoolPref('localfiles_enabled', this.localFilesEnabled);
-			} else {
-				var ioService = Components.classes["@mozilla.org/network/io-service;1"]
-					.getService(Components.interfaces.nsIIOService);
-				var host = URL.replace(/^\s*([-\w]*:\/+)?/, ""); // trim any leading space and scheme
-				host = (host.charAt(0) == ".") ? host.substring(1,host.length) : host;
-				var URI = ioService.newURI("http://"+host, null, null);			
-				this.permissionManager.add(URI, "jsPrintSetup", perm);
+			} else if (this.URI.schemeIs("http") || this.URI.schemeIs("https")) {
+				this.permissionManager.add(this.URI, "jsPrintSetup", perm);
 			}	
 		} catch (err) {
 			if (this.DEBUG) this.error(err);
