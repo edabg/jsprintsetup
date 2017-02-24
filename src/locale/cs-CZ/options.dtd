@@ -1,8 +1,8 @@
-<!ENTITY  jsPrintSetup.Options		"Nastevní doplňku jsPrintSetup">
+<!ENTITY  jsPrintSetup.Options		"Nastavení doplňku jsPrintSetup">
 <!ENTITY  jsPrintSetup.SecurityMode	"Bezpečnostní mód">
 <!ENTITY  jsPrintSetup.AccessFromEnabled	"Umožnit přístup POUZE povoleným stránkám">
-<!ENTITY  jsPrintSetup.PromptForAccess	"Pokud stránka doposued není ani povolena ani zakázána, zeptat se na povolení přístupu.">
-<!ENTITY  jsPrintSetup.AccessFromAll	"Umožnit přístup všem stránkám (nedoručeno)">
+<!ENTITY  jsPrintSetup.PromptForAccess	"Pokud stránka doposud není ani povolena ani zakázána, zeptat se na povolení přístupu.">
+<!ENTITY  jsPrintSetup.AccessFromAll	"Umožnit přístup všem stránkám (nedoporučeno)">
 <!ENTITY  jsPrintSetup.Behavior	"Chování">
 <!ENTITY  jsPrintSetup.EnableAccessFromLocal	"Umožnit přístup místním souborům (file:///)">
 <!ENTITY  jsPrintSetup.EnableRequestFromBlocked	"Pokud je stránka blokovaná, umožnit vyžádání přístupu od uživatele">
