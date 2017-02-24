@@ -4,6 +4,7 @@ locale jsprintsetup	en-US locale/en-US/
 locale jsprintsetup	bg-BG locale/bg-BG/
 locale jsprintsetup	fr-FR locale/fr-FR/
 locale jsprintsetup	es-ES locale/es-ES/
+locale jsprintsetup     cs-CZ locale/cs-CZ/
 
 interfaces  components/jsPrintSetup.xpt
 component {2eda1003-c9ff-434b-8abd-40c1617f85f7} components/jsPrintSetup.js

@@ -21,6 +21,7 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 	
 	<em:translator>Guillaume Crico</em:translator>
 	<em:translator>Andrés Michel</em:translator>
+        <em:translator>Josef Moravec</em:translator>
 	
 	<em:homepageURL>https://github.com/edabg/jsprintsetup</em:homepageURL>
 	<em:optionsURL>chrome://jsprintsetup/content/options.xul</em:optionsURL>
@@ -34,6 +35,15 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 			<em:homepageURL>	http://jsprintsetup.mozdev.org/</em:homepageURL>
 		</Description>
 	</em:localized>
+        <em:localized>
+                <Description>
+                        <em:locale>cs-CZ</em:locale>
+                        <em:name>JS Print Setup</em:name>
+                        <em:description>Nástroj pro nastavení vlastností tiskárny pomocí javascriptu.</em:description>
+                        <em:creator>ЕDA Ltd.</em:creator>
+                        <em:homepageURL>        http://jsprintsetup.mozdev.org/</em:homepageURL>
+                </Description>
+        </em:localized>
 	 
 	<em:multiprocessCompatible>false</em:multiprocessCompatible>
 		 
